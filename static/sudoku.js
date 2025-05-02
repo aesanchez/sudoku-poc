@@ -152,11 +152,23 @@ function handleKeyDown(e) {
 }
 
 function onInput(e) {
-  const value = e.target.value;
+  const input = e.target;
+  const row = parseInt(input.dataset.row);
+  const col = parseInt(input.dataset.col);
+  const value = input.value;
+  
+  input.classList.remove('incorrect');
+  document.getElementById('feedback').textContent = '';
+  
   if (value === '' || /^[1-9]$/.test(value)) {
-    const row = parseInt(e.target.dataset.row);
-    const col = parseInt(e.target.dataset.col);
-    puzzle[row][col] = value === '' ? 0 : parseInt(value);
+    const numValue = value === '' ? 0 : parseInt(value);
+    puzzle[row][col] = numValue;
+    
+    // Check if the number is incorrect
+    if (numValue !== 0 && numValue !== solution[row][col]) {
+      input.classList.add('incorrect');
+      document.getElementById('feedback').textContent = 'Incorrect number!';
+    }
     
     // Check if the puzzle is complete
     if (checkWin()) {
@@ -164,7 +176,7 @@ function onInput(e) {
       document.getElementById('feedback').textContent = 'Congratulations! You solved the puzzle!';
     }
   } else {
-    e.target.value = '';
+    input.value = '';
   }
 }
 
