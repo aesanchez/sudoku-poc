@@ -1,0 +1,184 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #fff;
+  text-align: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #1DB954;
+  text-shadow: 0 0 10px rgba(29, 185, 84, 0.3);
+}
+
+#sudoku-board {
+  display: grid;
+  grid-template-columns: repeat(9, 50px);
+  grid-template-rows: repeat(9, 50px);
+  gap: 0;
+  margin: 20px auto;
+  width: fit-content;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.sudoku-cell {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 1.8em;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  caret-color: transparent;
+}
+
+.sudoku-cell.box-right {
+  border-right: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.sudoku-cell.box-bottom {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.sudoku-cell.selected {
+  border: 2.5px solid #1DB954 !important;
+  z-index: 1;
+}
+
+.sudoku-cell:focus {
+  outline: none;
+  background: rgba(29, 185, 84, 0.1);
+  box-shadow: 0 0 15px rgba(29, 185, 84, 0.4);
+  transform: scale(1.05);
+  z-index: 1;
+}
+
+.sudoku-cell.given {
+  background: rgba(17, 17, 17, 0.8);
+  color: #1DB954;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(29, 185, 84, 0.5);
+}
+
+.sudoku-cell.incorrect {
+  background: rgba(170, 0, 0, 0.3) !important;
+  color: #fff;
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.sudoku-cell.highlight-row {
+  background: rgba(29, 185, 84, 0.05);
+}
+
+.sudoku-cell.highlight-col {
+  background: rgba(29, 185, 84, 0.05);
+}
+
+.sudoku-cell.highlight-row.highlight-col {
+  background: rgba(29, 185, 84, 0.1);
+}
+
+#feedback {
+  margin-top: 20px;
+  min-height: 24px;
+  font-size: 1.2em;
+  color: #1DB954;
+  text-shadow: 0 0 5px rgba(29, 185, 84, 0.3);
+}
+
+button {
+  margin: 10px;
+  padding: 12px 24px;
+  font-size: 1.1em;
+  background: #1DB954;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background: #159c43;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.difficulty-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.difficulty-selector label {
+  font-size: 1.1em;
+  color: #1DB954;
+}
+
+.difficulty-selector select {
+  padding: 8px 12px;
+  font-size: 1em;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.difficulty-selector select:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.difficulty-selector select:focus {
+  outline: none;
+  border-color: #1DB954;
+  box-shadow: 0 0 5px rgba(29, 185, 84, 0.3);
+}
+
+.timer {
+  font-size: 1.2em;
+  color: #1DB954;
+  text-shadow: 0 0 5px rgba(29, 185, 84, 0.3);
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+} 
