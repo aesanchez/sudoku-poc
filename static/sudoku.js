@@ -152,60 +152,31 @@ function handleKeyDown(e) {
 }
 
 function onInput(e) {
-  const input = e.target;
-  const row = parseInt(input.dataset.row);
-  const col = parseInt(input.dataset.col);
-  const val = parseInt(input.value);
-  input.classList.remove('incorrect');
-  document.getElementById('feedback').textContent = '';
-  
-  if (isNaN(val) || val < 1 || val > 9) {
-    input.value = '';
-    return;
-  }
-  
-  if (val !== solution[row][col]) {
-    input.classList.add('incorrect');
-    document.getElementById('feedback').textContent = 'Incorrect number!';
+  const value = e.target.value;
+  if (value === '' || /^[1-9]$/.test(value)) {
+    const row = parseInt(e.target.dataset.row);
+    const col = parseInt(e.target.dataset.col);
+    puzzle[row][col] = value === '' ? 0 : parseInt(value);
+    
+    // Check if the puzzle is complete
+    if (checkWin()) {
+      stopTimer();
+      document.getElementById('feedback').textContent = 'Congratulations! You solved the puzzle!';
+    }
   } else {
-    input.classList.remove('incorrect');
-    document.getElementById('feedback').textContent = '';
+    e.target.value = '';
   }
-  
-  checkWin();
 }
 
 function checkWin() {
-  const cells = document.querySelectorAll('.sudoku-cell');
-  for (let cell of cells) {
-    if (!cell.disabled && (cell.value === '' || cell.classList.contains('incorrect'))) {
-      return;
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (puzzle[row][col] !== solution[row][col]) {
+        return false;
+      }
     }
   }
-  stopTimer();
-  document.getElementById('feedback').textContent = 'Congratulations! You solved the puzzle!';
-}
-
-function checkProgress() {
-  let hasErrors = false;
-  const cells = document.querySelectorAll('.sudoku-cell:not(.given)');
-  
-  cells.forEach(cell => {
-    const row = parseInt(cell.dataset.row);
-    const col = parseInt(cell.dataset.col);
-    const value = parseInt(cell.value);
-    
-    if (value && value !== solution[row][col]) {
-      cell.classList.add('incorrect');
-      hasErrors = true;
-    }
-  });
-
-  if (hasErrors) {
-    document.getElementById('feedback').textContent = 'There are some incorrect numbers!';
-  } else {
-    document.getElementById('feedback').textContent = 'All numbers are correct so far!';
-  }
+  return true;
 }
 
 async function newGame() {
@@ -219,6 +190,7 @@ async function newGame() {
   startTimer();
 }
 
-document.getElementById('new-game').addEventListener('click', newGame);
-document.getElementById('check').addEventListener('click', checkProgress);
-window.onload = newGame; 
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('new-game').addEventListener('click', newGame);
+  newGame();
+}); 
